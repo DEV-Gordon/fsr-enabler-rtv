@@ -1,4 +1,4 @@
-extends Node
+﻿extends Node
 
 const FILE_PATH = "user://MCM/fsr_enabler/config.ini"
 
@@ -11,13 +11,21 @@ var current_sharpness : float  = DEF_SHARPNESS
 var debug_info        : bool   = DEF_DEBUG
 
 var _debug_label : Label = null
+var _last_scene : Node = null
 
 func _ready():
     process_priority = 10000
     process_mode = Node.PROCESS_MODE_ALWAYS
     _init_debug_label()
     _load_and_apply()
+    get_tree().node_added.connect(_on_node_added)
     print("[FSRZone] Loaded")
+
+func _on_node_added(_node: Node):
+    var current = get_tree().current_scene
+    if current != null and current != _last_scene:
+        _last_scene = current
+        call_deferred("_apply_fsr")
 
 func _init_debug_label():
     var layer = CanvasLayer.new()
