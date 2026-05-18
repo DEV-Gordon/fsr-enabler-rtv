@@ -1,0 +1,8 @@
+[mod]
+name="FSR Enabler"
+id="fsr_enabler"
+version="1.0.2"
+
+[autoload]
+FSREnablerMCM="res://fsr_enabler/Config.gd"
+FSREnablerMain="res://fsr_enabler/Main.gd"
