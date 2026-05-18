@@ -25,7 +25,22 @@ func _on_tree_changed():
     var current = get_tree().current_scene
     if current != null and current != _last_scene:
         _last_scene = current
-        call_deferred("_apply_fsr")
+        _reapply_after_scene_change()
+
+func _reapply_after_scene_change() -> void:
+    await get_tree().process_frame
+    _apply_all()
+
+    await get_tree().process_frame
+    _apply_all()
+
+    await get_tree().create_timer(0.25).timeout
+    _apply_all()
+
+    await get_tree().create_timer(0.75).timeout
+    _apply_all()
+
+    print("[FSRZone] FSR reapplied after map change")
 
 func _init_debug_label():
     var layer = CanvasLayer.new()
