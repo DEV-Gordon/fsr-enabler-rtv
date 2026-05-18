@@ -18,10 +18,10 @@ func _ready():
     process_mode = Node.PROCESS_MODE_ALWAYS
     _init_debug_label()
     _load_and_apply()
-    get_tree().node_added.connect(_on_node_added)
+    get_tree().tree_changed.connect(_on_tree_changed)
     print("[FSRZone] Loaded")
 
-func _on_node_added(_node: Node):
+func _on_tree_changed():
     var current = get_tree().current_scene
     if current != null and current != _last_scene:
         _last_scene = current
